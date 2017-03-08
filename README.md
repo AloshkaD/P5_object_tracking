@@ -5,11 +5,13 @@
 
 This project was developed for identifying vehicles in a video stream. The project is a corner stone for a real time vehicle tracking algorithm that employ semantic pixel-wise methods. This projects solves the tracking problem for the Udacity final project in a different way that the general approach presented in the course. Instead of using the HOG features and other features extracted from the color space of the images, we used the U-Net[1] which is a  convolutional network for biomedical image segmentation. We modified the original network with batch normalization in keras in order to speed up the network. There are many benefits to using neural networks for segmentation and tracking such as improved accuracy and portability. ConvNetts generally capable of performing segmentation tasks by transforming fully connected layers into convolution layers that output a spatial map for end-to-end pixel wise learning [6]. In this submission we also discuss the internal covariant shift issue in ConvNets and test two implementations of the same neural network with and without batch normalization.
 
-<img src="readme_imgs/Img_groundtruth.png">
+<img style="float: center;" src="readme_imgs/Img_groundtruth.png">
 
 ## Data Pre-processing 
 
-<img src="readme_imgs/3_masked_imgs.png">
+We have implemented camera calibration routine to the video file, however we haven't calibrated the images from the datasets. However, each image was normalized and then smoothed with a Gaussian filter. In order to train the network, we have masked each image without covering the cars that were reported in the CSV file. The images were randomly processed with a brightness filter to help the network generalize to different lighting conditions. 
+
+<img style="float: center;" src="readme_imgs/3_masked_imgs.png">
 
 
 ## U-Net Convolutional Network
@@ -24,16 +26,15 @@ In this project we used the U-Net original implantation as it was described in i
 Internal covariant shift in deep neural networks is affects the learning speed in ConvNets. Batch normalization was recently proposed to reduce the distribution of each layer’s input to accelerate the training process. It also reduces over fitting and eliminates the need for using dropout in the fully connected layers. In order to determine the usefulness of implementing batch normalization in neural networks that don’t use fully connected layers we evaluated the performance of encoder-decoder ConvNets with and without using batch normalization. We found that batch normalization increased the learning performance by 18% but also increased the learning time in each epoch by 26%. 
 The figures below show the training accuracy plots from a U-Net with batch normalization implemented and without batch normalization implementation respectively. 
 
-<img src="readme_imgs/wBN1.png">
-<img src="readme_imgs/noBN1.png">
+<img style="float: center;" src="readme_imgs/wBN1.png">
+<img style="float: center;" src="readme_imgs/noBN1.png">
  
-
 
 ##  Jaccard similarity coefficient 
 
 In evaluating the model I've investigated several metrics including the Mean IU[7] Intersection over Union [5] and the Jaccard coefficient [4]. The idea is to maximize the overlap between the predicted region and the ground truth bounding box.
 
-<img src="readme_imgs/iou_stop_sign.jpg">
+<img style="float: center;" src="readme_imgs/iou_stop_sign.jpg">
 
 We eventually decided to use the Jaccard coeef. The Jaccard similarity coefficient is defined as the size of the intersection divided by the size of the union of two regions. This metric is used to compare the predicted labels to a set of labels in y_true [4].
 
@@ -43,8 +44,8 @@ The coefficients are given by
 
 (If A and B are both empty, we define J(A,B) = 1.)
 
-<img src="readme_imgs/Intersection_of_sets_A_and_B.png">
-<img src="readme_imgs/Intersection_of_sets_A_and_B_2.png">
+<img style="float: center;" src="readme_imgs/Intersection_of_sets_A_and_B.png">
+<img style="float: center;" src="readme_imgs/Intersection_of_sets_A_and_B_2.png">
 Image source [4]
 
 ## Training
@@ -56,16 +57,16 @@ We used Adam optimizer for training the network with a training rate of 1e-4. Th
 
 ## Results
 
-<img src="readme_imgs/results_1.png">
+<img style="float: center;" src="readme_imgs/results_1.png">
 [![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/IbvwsHkxv8E/0.jpg)](http://www.youtube.com/watch?v=IbvwsHkxv8E) 
 
 ## Reflections and limitations
 
-
+This was an awesome project, I've  learned so much reading and implementing various approaches to solve it. I took an unorthodox approach to solving it by using Neural networks instead of computer vision. I'm currently improving it by applying new techniques to turn the project into a tracking algorithms with neural networks. I will also improve the algorithm to remove the false positive detection seen in some frames. I will also test a mIoU metric for evaluating the network because it is a more stringent metric than class average accuracy since it penalizes false positive predictions[8]. 
 
 ## Acknowledgments
-The mIoU metric is a more stringent metric than class average accuracy since it penalizes false positive predictions[8].  
-Great source [10] for segmentation techniques using ConvNets
+
+I can't thank Udacity enough for this great opportunity to learn state-of-the-art technology. The course materials and provided methods were the foundation for the project. I've also learned so much from Stanford university's  deep learning course [3] which was very helpful in selecting what ConvNet I should choose. I would like to give credits to Artur Kuzin who's code on kaggle [2] was very helpful in solving sticky problems. This work could have not been possible without the fascinating posts of Vivek Yadav [12] who was an inspiration and helpful is solving countless problems. Finally, this repository [10] was a great source for segmentation techniques using ConvNets. 
 
 
 ## Refrences 
@@ -90,6 +91,8 @@ Great source [10] for segmentation techniques using ConvNets
 [10]https://github.com/kjw0612/awesome-deep-vision
 
 [11]https://github.com/edrones/self-driving-car/tree/master/annotations
+
+[12]https://chatbotslife.com/small-u-net-for-vehicle-detection-9eec216f9fd6#.45e4cn1xk
 
 
 ```python
@@ -1231,28 +1234,20 @@ history = model.fit_generator(training_gen,
 
 ```python
 smooth = 1.
-
-
 heatmap_prev = np.zeros((640,960))
-
 heatmap_10 = [np.zeros((640,960))]*10
-
-
 def smooth_heatmap(heatmap):
+    #Credit Vive Yadav
     # Smoothing heatmap as average of 10 previous frames
     global heatmap_10
-    
     heatmap_10_1 = heatmap_10[1:]
     heatmap_10_1.append(heatmap)
-    
     heatmap_10 = heatmap_10_1
-    
     heatmap = np.mean(heatmap_10,axis=0)
     
     #heatmap = heatmap_prev*.2 + heatmap*.8
     #heatmap[heatmap>240] = 255
     #heatmap[heatmap<240] = 0
-    
     return heatmap 
  
 
@@ -1310,7 +1305,7 @@ def get_labeled_bboxes(img, labels):
     # Return the image
     return bbox_all
 
-#credits Vivek
+#credits Vivek Yadav
 def get_BB_new(img):
     # Take in RGB image
     pred,img = next_img(img)
@@ -1326,8 +1321,8 @@ def get_BB_new(img):
     bbox_all = get_labeled_bboxes(np.copy(img), labels)
     return bbox_all
 
-
 def get_Unet_mask(img):
+    
     # Take in RGB image
     pred,img = next_img(img)
     img  = np.array(img,dtype= np.uint8)
@@ -1357,8 +1352,6 @@ end-start
 
 
 ```python
-### Testing generator
-#How many images want to be tested 
 start = time.time()
 sample_imgs=1 
 testing_gen = generate_test_batch(cars_15_35GB,sample_imgs)
@@ -1528,13 +1521,9 @@ for image_name in glob.glob("Frames/*"):
     plt.imshow(draw_img)
     plt.title('Bounding Box')
     plt.axis('off');
-    
-    
-    
-    
 
 heatmap_10 = [np.zeros((640,960))]*10
-#result_pipe = get_BB_new_img(result_pipe)    
+    
 ```
 
 
@@ -1599,55 +1588,6 @@ heatmap_10 = [np.zeros((640,960))]*10
 
 
 ```python
-
-```
-
-
-```python
-def video_pipeline(im):
-    row = 640
-    col = 960
-### Test on last frames of data
-     
-    
-    pre_final_predictions= model.predict(im)
-    np.shape(pre_final_predictions)
-    for i in range(sample_imgs):
-        im=batch_img[i]
-        pred,im = next_img(im)
-        im  = np.array(im,dtype= np.uint8)
-        im_pred = np.array(255*pred[0],dtype=np.uint8)
-        im_mask = np.array(255*batch_mask[i],dtype=np.uint8)
-        rgb_mask_true= cv2.cvtColor(im_mask,cv2.COLOR_GRAY2RGB)
-        rgb_mask_true[:,:,0] = 0*rgb_mask_true[:,:,0]
-        rgb_mask_true[:,:,2] = 0*rgb_mask_true[:,:,2]
-        img_true = cv2.addWeighted(rgb_mask_true,0.70,im,0.70,0)
-        rgb_mask_pred = cv2.cvtColor(im_pred,cv2.COLOR_GRAY2RGB)
-        rgb_mask_pred[:,:,1:3] = 0*rgb_mask_pred[:,:,1:2]
-        img_pred = cv2.addWeighted(rgb_mask_pred,0.70,im,1,0)
-        draw_img = get_BB_new_img(im)
-        plt.figure(figsize=(14,5))
-        plt.subplot(1,4,1)
-        plt.imshow(im)
-        plt.title('Original')
-        plt.axis('off')
-        plt.subplot(1,4,2)
-        plt.imshow(img_pred)
-        plt.title('Segmented')
-        plt.axis('off')
-        plt.subplot(1,4,3)
-        plt.imshow(draw_img)
-        plt.title('Predicted')
-        plt.axis('off')
-        plt.subplot(1,4,4)
-        plt.imshow(img_true)
-        plt.title('Gtruth')
-        plt.axis('off') 
-    return draw_img
-```
-
-
-```python
 def video_pipeline(image):
     #test_img = 'scene01021.jpg'
     #im = cv2.imread(im)
@@ -1688,11 +1628,6 @@ white_clip.write_videofile(video_output, audio=False)
 
 
 ```python
-
-```
-
-
-```python
 from IPython.display import HTML
 HTML("""
 <video width="640" height="360" controls>
@@ -1711,14 +1646,3 @@ HTML("""
 
 
 
-
-
-```python
-
-```
-
-
-```python
-
-
-```
