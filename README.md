@@ -64,7 +64,7 @@ We used Adam optimizer for training the network with a training rate of 1e-4. Th
 
 This was an awesome project, I've  learned so much reading and implementing various approaches to solve it. I took an unorthodox approach to solving it by using Neural networks instead of computer vision. I'm currently improving it by applying new techniques to turn the project into a tracking algorithms with neural networks. I will also improve the algorithm to remove the false positive detection seen in some frames. I will also test a mIoU metric for evaluating the network because it is a more stringent metric than class average accuracy since it penalizes false positive predictions[8]. 
 
-## Acknowledgments
+## Acknowledgment
 
 I can't thank Udacity enough for this great opportunity to learn state-of-the-art technology. The course materials and provided methods were the foundation for the project. I've also learned so much from Stanford university's  deep learning course [3] which was very helpful in selecting what ConvNet I should choose. I would like to give credits to Artur Kuzin who's code on kaggle [2] was very helpful in solving sticky problems. This work could have not been possible without the fascinating posts of Vivek Yadav [12] who was an inspiration and helpful is solving countless problems. Finally, this repository [10] was a great source for segmentation techniques using ConvNets. 
 
