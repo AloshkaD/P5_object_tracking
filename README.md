@@ -16,7 +16,7 @@ We have implemented camera calibration routine to the video file, however we hav
 
 ## U-Net Convolutional Network
 
-The U-Net has been proposed as a solution for the dstl satellite imagery feature detection[2]. It was primarily choses based on the evaluation of fast segmentation ConvNets by Fabian Tschopp[9].The U-Net has two sections 
+The U-Net has been proposed as a solution for the dstl satellite imagery feature detection[2]. It was primarily chosen based on the evaluation of fast segmentation ConvNets by Fabian Tschopp[9].The U-Net has two sections 
 • Contracting: Two convolutions followed by one max pooling layer.
 • Expanding: Deconvolution followed by a convolution to reduce the number of feature maps, a mergecrop and two convolution layers.
 In this project we used the U-Net original implantation as it was described in its original paper [1] and modified it for batch normalization.
