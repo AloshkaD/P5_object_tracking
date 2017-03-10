@@ -23,7 +23,7 @@ In this project we used the U-Net original implantation as it was described in i
 
 ## Batch Normalization
 
-Internal covariant shift in deep neural networks is affects the learning speed in ConvNets. Batch normalization was recently proposed to reduce the distribution of each layer’s input to accelerate the training process. It also reduces over fitting and eliminates the need for using dropout in the fully connected layers. In order to determine the usefulness of implementing batch normalization in neural networks that don’t use fully connected layers we evaluated the performance of encoder-decoder ConvNets with and without using batch normalization. We found that batch normalization increased the learning performance by 18% but also increased the learning time in each epoch by 26%. 
+Internal covariant shift in deep neural networks affects the learning speed in ConvNets. Batch normalization was recently proposed to reduce the distribution of each layer’s input to accelerate the training process. It also reduces over fitting and eliminates the need for using dropout in the fully connected layers. In order to determine the usefulness of implementing batch normalization in neural networks that don’t use fully connected layers we evaluated the performance of encoder-decoder ConvNets with and without using batch normalization. We found that batch normalization increased the learning performance by 18% but also increased the learning time in each epoch by 26%. 
 The figures below show the training accuracy plots from a U-Net with batch normalization implemented and without batch normalization implementation respectively. 
 
 <img style="float: center;" src="readme_imgs/wBN1.png">
