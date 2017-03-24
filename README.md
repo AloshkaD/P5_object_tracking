@@ -58,7 +58,7 @@ We used Adam optimizer for training the network with a training rate of 1e-4. Th
 ## Results
 
 <img style="float: center;" src="readme_imgs/results_1.png">
-[![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/IbvwsHkxv8E/0.jpg)](http://www.youtube.com/watch?v=IbvwsHkxv8E) 
+[![Object tracking](http://img.youtube.com/vi/IbvwsHkxv8E/0.jpg)](http://www.youtube.com/watch?v=IbvwsHkxv8E) 
 
 ## Reflections and limitations
 
