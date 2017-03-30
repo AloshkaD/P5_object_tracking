@@ -3,7 +3,7 @@
 
 ## Introduction
 
-This project was developed for identifying vehicles in a video stream. The project is a corner stone for a real time vehicle tracking algorithm that employ semantic pixel-wise methods. This projects solves the tracking problem for the Udacity final project in a different way that the general approach presented in the course. Instead of using the HOG features and other features extracted from the color space of the images, we used the U-Net[1] which is a  convolutional network for biomedical image segmentation. We modified the original network with batch normalization in keras in order to speed up the network. There are many benefits to using neural networks for segmentation and tracking such as improved accuracy and portability. ConvNetts generally capable of performing segmentation tasks by transforming fully connected layers into convolution layers that output a spatial map for end-to-end pixel wise learning [6]. In this submission we also discuss the internal covariant shift issue in ConvNets and test two implementations of the same neural network with and without batch normalization.
+This project was developed for identifying vehicles in a video stream. The project is a corner stone for a real time vehicle tracking algorithm that employ semantic pixel-wise methods. This project solves the tracking problem for the Udacity final project using a different approach than that presented in the course. Instead of using the HOG features and other features extracted from the color space of the images, we used the U-Net[1] which is a  convolutional network for biomedical image segmentation. We modified the original network with batch normalization in keras in order to speed up the network. There are many benefits to using neural networks for segmentation and tracking such as improved accuracy and portability. ConvNetts generally capable of performing segmentation tasks by transforming fully connected layers into convolution layers that output a spatial map for end-to-end pixel wise learning [6]. In this submission we also discuss the internal covariant shift issue in ConvNets and test two implementations of the same neural network with and without batch normalization.
 
 <img style="float: center;" src="readme_imgs/Img_groundtruth.png">
 
@@ -16,14 +16,14 @@ We have implemented camera calibration routine to the video file, however we hav
 
 ## U-Net Convolutional Network
 
-The U-Net has been proposed as a solution for the dstl satellite imagery feature detection[2]. It was primarily choses based on the evaluation of fast segmentation ConvNets by Fabian Tschopp[9].The U-Net has two sections 
+The U-Net has been proposed as a solution for the dstl satellite imagery feature detection[2]. It was primarily chosen based on the evaluation of fast segmentation ConvNets by Fabian Tschopp[9].The U-Net has two sections 
 • Contracting: Two convolutions followed by one max pooling layer.
 • Expanding: Deconvolution followed by a convolution to reduce the number of feature maps, a mergecrop and two convolution layers.
 In this project we used the U-Net original implantation as it was described in its original paper [1] and modified it for batch normalization.
 
 ## Batch Normalization
 
-Internal covariant shift in deep neural networks is affects the learning speed in ConvNets. Batch normalization was recently proposed to reduce the distribution of each layer’s input to accelerate the training process. It also reduces over fitting and eliminates the need for using dropout in the fully connected layers. In order to determine the usefulness of implementing batch normalization in neural networks that don’t use fully connected layers we evaluated the performance of encoder-decoder ConvNets with and without using batch normalization. We found that batch normalization increased the learning performance by 18% but also increased the learning time in each epoch by 26%. 
+Internal covariant shift in deep neural networks affects the learning speed in ConvNets. Batch normalization was recently proposed to reduce the distribution of each layer’s input to accelerate the training process. It also reduces over fitting and eliminates the need for using dropout in the fully connected layers. In order to determine the usefulness of implementing batch normalization in neural networks that don’t use fully connected layers we evaluated the performance of encoder-decoder ConvNets with and without using batch normalization. We found that batch normalization increased the learning performance by 18% but also increased the learning time in each epoch by 26%. 
 The figures below show the training accuracy plots from a U-Net with batch normalization implemented and without batch normalization implementation respectively. 
 
 <img style="float: center;" src="readme_imgs/wBN1.png">
@@ -58,13 +58,13 @@ We used Adam optimizer for training the network with a training rate of 1e-4. Th
 ## Results
 
 <img style="float: center;" src="readme_imgs/results_1.png">
-[![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/IbvwsHkxv8E/0.jpg)](http://www.youtube.com/watch?v=IbvwsHkxv8E) 
+[![Object tracking](https://img.youtube.com/vi/IbvwsHkxv8E/0.jpg)] (https://www.youtube.com/watch?v=IbvwsHkxv8E) 
 
 ## Reflections and limitations
 
 This was an awesome project, I've  learned so much reading and implementing various approaches to solve it. I took an unorthodox approach to solving it by using Neural networks instead of computer vision. I'm currently improving it by applying new techniques to turn the project into a tracking algorithms with neural networks. I will also improve the algorithm to remove the false positive detection seen in some frames. I will also test a mIoU metric for evaluating the network because it is a more stringent metric than class average accuracy since it penalizes false positive predictions[8]. 
 
-## Acknowledgments
+## Acknowledgment
 
 I can't thank Udacity enough for this great opportunity to learn state-of-the-art technology. The course materials and provided methods were the foundation for the project. I've also learned so much from Stanford university's  deep learning course [3] which was very helpful in selecting what ConvNet I should choose. I would like to give credits to Artur Kuzin who's code on kaggle [2] was very helpful in solving sticky problems. This work could have not been possible without the fascinating posts of Vivek Yadav [12] who was an inspiration and helpful is solving countless problems. Finally, this repository [10] was a great source for segmentation techniques using ConvNets. 
 
